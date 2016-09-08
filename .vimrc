@@ -30,6 +30,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Bundle 'edkolev/tmuxline.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'luochen1990/rainbow'
+Plugin 'tpope/vim-commentary'
 Bundle 'majutsushi/tagbar'
 
 
@@ -38,6 +39,7 @@ Bundle 'majutsushi/tagbar'
 
 " Toggle tagbar https://www.pkimber.net/howto/vim/plugin/tagbar.html
 nnoremap <leader>6 :TagbarToggle<CR>
+autocmd VimEnter * nested :call tagbar#autoopen(1)
 
 " Rainbow brackets (from Plugin 'luochen1990/rainbow')
 let g:rainbow_active = 1
