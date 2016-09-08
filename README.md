@@ -5,3 +5,8 @@ The .vimrc is setup to use vundle, so you should just need to
 Then inside vim call
 
 `:PluginInstall`
+
+After they all install, you need to do this to get YouCompleteMe working
+
+cd ~/.vim/bundle/YouCompleteMe
+python2.7 ./install.py

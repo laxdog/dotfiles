@@ -28,11 +28,20 @@ Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Bundle 'edkolev/tmuxline.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'luochen1990/rainbow'
+Bundle 'majutsushi/tagbar'
+
 
 " Add all your plugins here (note older versions of Vundle used Bundle instead
 " of Plugin)
 
+" Toggle tagbar https://www.pkimber.net/howto/vim/plugin/tagbar.html
+nnoremap <leader>6 :TagbarToggle<CR>
 
+" Rainbow brackets (from Plugin 'luochen1990/rainbow')
+let g:rainbow_active = 1
+"
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -52,7 +61,7 @@ map <leader>2 :NERDTreeFocusToggle  <CR>
 map <leader>3 :NERDTreeTabsToggle<CR>
 map <leader>4 :set nu! <CR>
 map <leader>5 :setf python <CR>
-map <leader>6 zfap
+" map <leader>6 zfap
 map <leader>7 :if exists("syntax_on") <Bar>syntax off <Bar> else <Bar> syntax on <Bar> endif <CR>
 map <leader>8 :%!indent <CR> 
 map <leader>9 :set wrap! <CR> 
