@@ -110,7 +110,7 @@ let g:syntastic_error_symbol='>>'
 let g:syntastic_enable_balloons=1
 let g:syntastic_python_checkers=['flake8']
 "E401 = multiple imports per line. E221 = multiple spaces before operator
-let g:syntastic_python_flake8_args='--ignore=E401,E221,E241 --max-line-length=120'
+let g:syntastic_python_flake8_args='--ignore=E401,E221,E241,E702 --max-line-length=120'
 
 
 " YouCompleteMe bindings / config
@@ -216,8 +216,9 @@ au BufNewFile,BufRead *.py
     \ set softtabstop=4 |
     \ set textwidth=119 |
     \ set fileformat=unix |
-
-
+    \ set tabstop=4 |
+    \ set shiftwidth=4 |
+    \ set expandtab
 
 " Define BadWhitespace before using in a match
 highlight BadWhitespace ctermbg=red guibg=darkred
