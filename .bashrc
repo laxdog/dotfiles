@@ -9,7 +9,7 @@ umask 002
 
 export EDITOR=vim
 
-PATH=/usr/sbin/:/sbin/:/usr/local/bin:/usr/bin:~/scripts:$PATH
+PATH=/usr/sbin/:/sbin/:/usr/local/bin:/usr/bin:/Users/mrobinson/puppet-ng/administration-tools/bin:$PATH
 export PATH
 
 if [ "$TERM" == "screen" ]; then
@@ -44,6 +44,9 @@ alias ll='ls -latrh'
 alias lss='ll'
 alias sl='ll'
 alias l='ll'
+alias t='tmux a || tmux'
+# Alias for renaming tmux panes
+alias rename-pane='printf "\033]2;%s\033\\"'
 
 alias fixPS1='PS1="\[\017\033[m\033[?9l\033[?1000l\]\[\e[0;32m\]\d \[\e[0;31m\]\t\[\033[0m\]\[\033[0;33m\] \[\033[0m\]\[\033[1;30m\]\[\033[0m\]\[\033[1;37m\]\u\[\033[0m\]\[\033[0;33m\]@\[\033[0m\]\[\033[0;36m\]\h\[\033[0m\]\[\033[0;33m\]:\[\033[0m\]\[\033[1;33m\]\w\[\033[0m\]\[\033[0;33m\] \[\033[0m\]\[\033[0;32m\]\[\033[0m\]\[\033[1;37m\]\[\033[0m\]\[\033[1;37m\](\[\033[0m\]\[\033[0;33m\]X\[\033[0m\]\[\033[1;37m\] \[\033[0m\]\[\033[1;30m\]\[\033[0m\]\[\033[0;37m\]files\[\033[0m\]\[\033[1;37m\], \[\033[0m\]\[\033[0;33m\]X \[\033[0m\]\[\033[0;37m\]total\[\033[0m\]\[\033[1;37m\])(\j)\n\[\033[0m\]\[\033[1;37m\]> \[\033[0;0m\]"'
 #Deletes the last entry in your history
@@ -53,6 +56,8 @@ alias tcpCnx='netstat -an | grep ESTABLISHED | awk '\''{print $5}'\'' | awk -F: 
 alias sshx='ssh -XC -o CompressionLevel=9 '
 alias serveThis='python -m SimpleHTTPServer'
 alias fgerp='fgrep'
+alias sv='source venv/bin/activate'
+alias tv='terminal_velocity'
 
 #tmuxinator
 #source ~/.gem/ruby/gems/tmuxinator-0.7.1/completion/tmuxinator.bash
@@ -78,3 +83,6 @@ LS_COLORS=$LS_COLORS:'*.py=0;36:' ; export LS_COLORS
 
 # Fix del key for st (suckless simple terminal)
 tput smkx
+
+# python rc
+export PYTHONSTARTUP=~/.pythonstartup
