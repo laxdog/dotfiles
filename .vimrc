@@ -24,6 +24,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'jnurmine/Zenburn'
 Plugin 'luochen1990/rainbow'
+Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'nvie/vim-flake8'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
@@ -38,6 +39,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Bundle 'jiangmiao/auto-pairs'
 Bundle 'edkolev/tmuxline.vim'
 Bundle 'majutsushi/tagbar'
+Bundle 'edkolev/promptline.vim'
 
 
 " Add all your plugins here (note older versions of Vundle used Bundle instead
@@ -73,8 +75,12 @@ map <leader>6 :TagbarToggle<CR>
 map <leader>7 :if exists("syntax_on") <Bar>syntax off <Bar> else <Bar> syntax on <Bar> endif <CR>
 map <leader>8 :%!indent <CR> 
 map <leader>9 :set wrap! <CR> 
+map <leader>0 :BufExplorerHorizontalSplit <CR> 
+
 " disable autoindent
 nnoremap <F8> :setl noai nocin nosi inde=<CR>
+" similar usecase to above, toggle paste mode
+set pastetoggle=<F2>
 
 set ignorecase
 set smartcase
@@ -178,6 +184,7 @@ map <Leader>B :g/^\s*import ipdb; ipdb.set_trace()/d<CR>
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='jellybeans'
 
 " automatically change window's cwd to file's dir
 set autochdir
@@ -189,6 +196,14 @@ set expandtab
 
 " Define BadWhitespace before using in a match
 highlight BadWhitespace ctermbg=red guibg=darkred
+
+" Nice lines showing indentation
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 
 " Some python specific PEP-8 things
 au BufNewFile,BufRead *.py

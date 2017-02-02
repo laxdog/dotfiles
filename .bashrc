@@ -54,7 +54,7 @@ alias histdel='history -d $((HISTCMD-2)) && history -d $((HISTCMD-1))'
 #netstat -an | grep ESTABLISHED | awk '{print $5}' | awk -F: '{print $1}' | sort | uniq -c | awk '{ printf("%s\t%s\t",$2,$1); for (i = 0; i < $1; i++) {printf("*")}; print ""}'
 alias tcpCnx='netstat -an | grep ESTABLISHED | awk '\''{print $5}'\'' | awk -F: '\''{print $1}'\'' | sort | uniq -c | awk '\''{ printf("%s\t%s\t",$2,$1); for (i = 0; i < $1; i++) {printf("*")}; print ""}'\'''
 alias sshx='ssh -XC -o CompressionLevel=9 '
-alias serveThis='python -m SimpleHTTPServer'
+alias serveThis='python -m SimpleHTTPServer 9876'
 alias fgerp='fgrep'
 alias sv='source venv/bin/activate'
 alias tv='terminal_velocity'
@@ -86,3 +86,7 @@ tput smkx
 
 # python rc
 export PYTHONSTARTUP=~/.pythonstartup
+
+#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+source ~/.profile
+source ~/.shell_prompt.sh
