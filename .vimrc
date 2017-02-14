@@ -6,8 +6,6 @@
 " If you set this option in your vimrc file, you should probably put it at the
 " very start
 set nocompatible
-filetype plugin indent on    " required
-"filetype on
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -37,6 +35,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
 Bundle 'jiangmiao/auto-pairs'
+Bundle 'chrisbra/csv.vim'
 Bundle 'edkolev/tmuxline.vim'
 Bundle 'majutsushi/tagbar'
 Bundle 'edkolev/promptline.vim'
@@ -54,6 +53,7 @@ let g:rainbow_active = 1
 "
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+filetype off
 filetype plugin indent on    " required
 
 " Removing pathogen to use vundle instead
@@ -99,8 +99,6 @@ set ignorecase
 set smartcase
 " Set highlight search
 set hlsearch
-
-filetype plugin indent on
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
