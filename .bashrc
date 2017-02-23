@@ -90,3 +90,4 @@ export PYTHONSTARTUP=~/.pythonstartup
 #export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 source ~/.profile
 source ~/.shell_prompt.sh
+export PATH=~/.rvm/gems/ruby-2.3.1/bin/:/usr/local/sbin:/Users/mrobinson/.proofpoint/rbenv/bin:/usr/sbin/:/sbin/:/usr/local/bin:/usr/bin:/Users/mrobinson/puppet-ng/administration-tools/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/sbin/:/sbin/:/Users/mrobinson/puppet-ng/administration-tools/bin
