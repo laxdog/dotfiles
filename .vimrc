@@ -36,7 +36,7 @@ Plugin 'vim-airline/vim-airline-themes'
 
 Bundle 'jiangmiao/auto-pairs'
 Bundle 'chrisbra/csv.vim'
-Bundle 'edkolev/tmuxline.vim'
+" Bundle 'edkolev/tmuxline.vim'
 Bundle 'majutsushi/tagbar'
 Bundle 'edkolev/promptline.vim'
 
