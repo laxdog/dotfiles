@@ -264,7 +264,7 @@ function __promptline_jobs {
   done
 
   [[ $job_count -gt 0 ]] || return 1;
-  printf "%s" "$job_count"
+  printf "Jobs: %s" "$job_count"
 }
 function __promptline {
   local last_exit_code="${PROMPTLINE_LAST_EXIT_CODE:-$?}"
