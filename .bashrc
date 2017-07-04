@@ -56,9 +56,9 @@ alias tcpCnx='netstat -an | grep ESTABLISHED | awk '\''{print $5}'\'' | awk -F: 
 alias sshx='ssh -XC -o CompressionLevel=9 '
 alias serveThis='python -m SimpleHTTPServer 9876'
 alias fgerp='fgrep'
-alias v2='virtualenv -p python2 venv'
-alias v3='virtualenv -p python3 venv'
 alias sv='source venv/bin/activate'
+alias v2='virtualenv -p python2 venv && source venv/bin/activate'
+alias v3='virtualenv -p python3 venv && source venv/bin/activate'
 alias tv='terminal_velocity'
 
 #tmuxinator
