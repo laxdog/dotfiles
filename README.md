@@ -10,5 +10,11 @@ After they all install, you need to do this to get YouCompleteMe working
 
 sudo install automake gcc gcc-c++ kernel-devel cmake make python-devel python3-devel
 
+or
+
+brew install automake gcc cmake make python python3 ctags
+
+ctags is required for TagBar
+
 cd ~/.vim/bundle/YouCompleteMe
 python2.7 ./install.py
