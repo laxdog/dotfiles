@@ -60,6 +60,7 @@ alias sv='source venv/bin/activate'
 alias v2='virtualenv -p python2 venv && source venv/bin/activate'
 alias v3='virtualenv -p python3 venv && source venv/bin/activate'
 alias tv='terminal_velocity'
+alias vim='mvim -v'
 
 #tmuxinator
 #source ~/.gem/ruby/gems/tmuxinator-0.7.1/completion/tmuxinator.bash
