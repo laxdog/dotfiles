@@ -1,2 +1,7 @@
+#!/bin/bash
+
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew install automake gcc cmake make python python3 ctags git tmux tmate macvim 
+brew install automake gcc cmake make python python3 ctags git tmux tmate
+echo "Install XCode from the app store"
+read
+brew install macvim --with-override-system-vim

@@ -60,7 +60,6 @@ alias sv='source venv/bin/activate'
 alias v2='virtualenv -p python2 venv && source venv/bin/activate'
 alias v3='virtualenv -p python3 venv && source venv/bin/activate'
 alias tv='terminal_velocity'
-alias vim='mvim -v'
 
 #tmuxinator
 #source ~/.gem/ruby/gems/tmuxinator-0.7.1/completion/tmuxinator.bash
@@ -90,7 +89,7 @@ tput smkx
 # python rc
 export PYTHONSTARTUP=~/.pythonstartup
 
-source ~/.profile
+#source ~/.profile
 source ~/.shell_prompt.sh
 export PATH=/usr/local/sbin:/usr/sbin/:/sbin/:/usr/local/bin:/usr/bin:/Users/mrobinson/puppet-ng/administration-tools/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/sbin/:/sbin/:/Users/mrobinson/puppet-ng/administration-tools/bin:~/.proofpoint/rbenv/bin:$PATH
-eval "$(rbenv init -)"
+#eval "$(rbenv init -)"
