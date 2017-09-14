@@ -1,0 +1,2 @@
+sudo yum install -y adobe-source-code-pro-fonts git tig tmux vim cmake python-devel python3 python3-devel automake gcc gcc-c++ kernel-devel ctags
+

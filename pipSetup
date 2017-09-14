@@ -1,0 +1,11 @@
+#!/bin/bash
+packages="virtualenv pdbpp ipdb ipython setuptools flake8"
+binaries="pip2 pip3"
+for bin in $binaries
+do
+    sudo $bin install --upgrade pip
+    for package in $packages
+    do
+        sudo $bin install $package
+    done
+done
