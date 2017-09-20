@@ -1,7 +1,13 @@
 #!/bin/bash
 
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew install automake gcc cmake make python python3 ctags git tmux tmate
-echo "Install XCode from the app store"
+brew install automake gcc cmake make python python3 ctags git tmux tmate htop bash-completion dos2unix jq ncdu nmap tig tree unrar wget watch coreutils node
+brew cask install iterm2 dropbox virtualbox google-drive java spotify gimp
+echo "Install XCode from the app store, then press enter..."
 read
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer/
 brew install macvim --with-override-system-vim
+
+brew update && brew upgrade `brew outdated`
+brew linkapps
+brew cleanup
