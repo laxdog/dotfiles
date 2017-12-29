@@ -33,6 +33,7 @@ Plugin 'tpope/vim-unimpaired.git'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'sheerun/vim-polyglot'
 
 Bundle 'jiangmiao/auto-pairs'
 Bundle 'chrisbra/csv.vim'
@@ -43,7 +44,7 @@ Bundle 'edkolev/promptline.vim'
 
 " Add all your plugins here (note older versions of Vundle used Bundle instead
 " of Plugin)
-:let mapleader = "`"
+:let mapleader = "1"
 
 " Toggle tagbar https://www.pkimber.net/howto/vim/plugin/tagbar.html
 autocmd VimEnter * nested :call tagbar#autoopen(1)
@@ -67,12 +68,12 @@ set background=dark
 
 let python_highlight_all=1
 syntax on
-map <leader>1 :SyntasticToggleMode<CR><CR>
+map <leader>1 :TagbarToggle<CR>
 map <leader>2 :NERDTreeFocusToggle  <CR>
 map <leader>3 :NERDTreeTabsToggle<CR>
 map <leader>4 :set nu! <CR>
-map <leader>5 :setf python <CR>
-map <leader>6 :TagbarToggle<CR>
+map <leader>5 :set paste!<CR>
+map <leader>6 :SyntasticToggleMode<CR><CR>
 map <leader>7 :if exists("syntax_on") <Bar>syntax off <Bar> else <Bar> syntax on <Bar> endif <CR>
 map <leader>8 :%!indent <CR> 
 map <leader>9 :set wrap! <CR> 
