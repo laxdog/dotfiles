@@ -190,7 +190,7 @@ function __promptline_git_status {
 function __promptline_battery {
   local percent_sign="%"
   local battery_symbol=""
-  local threshold="10"
+  local threshold="20"
 
   # escape percent "%" in zsh
   [[ -n ${ZSH_VERSION-} ]] && percent_sign="${percent_sign//\%/%%}"

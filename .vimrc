@@ -185,6 +185,11 @@ map <Leader>B :g/^\s*import ipdb; ipdb.set_trace()/d<CR>
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='jellybeans'
+let g:airline_highlighting_cache=1
+
+set ttyfast
+set lazyredraw
+set re=1
 
 " automatically change window's cwd to file's dir
 set autochdir

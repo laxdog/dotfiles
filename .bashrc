@@ -90,6 +90,7 @@ tput smkx
 export PYTHONSTARTUP=~/.pythonstartup
 
 #source ~/.profile
+source git-completion.bash
 source ~/.shell_prompt.sh
 export PATH=/usr/local/sbin:/usr/sbin/:/sbin/:/usr/local/bin:/usr/bin:/Users/mrobinson/puppet-ng/administration-tools/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/sbin/:/sbin/:/Users/mrobinson/puppet-ng/administration-tools/bin:~/.proofpoint/rbenv/bin:$PATH
 #eval "$(rbenv init -)"
