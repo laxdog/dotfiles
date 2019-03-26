@@ -2,12 +2,15 @@
 
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew install automake gcc cmake make python python3 ctags git tmux tmate htop bash-completion dos2unix jq ncdu nmap tig tree unrar wget watch coreutils node
-brew cask install iterm2 dropbox virtualbox google-drive java spotify gimp
-brew tap caskroom/fonts && brew cask install font-hack font-source-code-pro
+brew cask install iterm2 dropbox virtualbox google-drive java spotify gimp docker
+brew tap caskroom/fonts && brew cask install font-hack font-source-code-pro font-terminus
 echo "Install XCode from the app store, then press enter..."
 read
 sudo xcode-select -s /Applications/Xcode.app/Contents/Developer/
 brew install macvim --with-override-system-vim
+
+brew install uptimed
+brew services start uptimed
 
 brew update && brew upgrade `brew outdated`
 brew linkapps

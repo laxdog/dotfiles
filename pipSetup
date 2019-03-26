@@ -1,5 +1,5 @@
 #!/bin/bash
-packages="virtualenv pdbpp ipdb ipython setuptools flake8"
+packages="virtualenv pdbpp ipdb ipython setuptools flake8 fancycompleter pandas readline lxml jupyter pytest bs4 troposphere"
 binaries="pip2 pip3"
 for bin in $binaries
 do

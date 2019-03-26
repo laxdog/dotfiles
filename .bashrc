@@ -9,6 +9,20 @@ umask 002
 
 export EDITOR=vim
 
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+
+if [ "$machine" == "Mac" ]
+then
+  alias updatedb="sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist"
+fi
+
 PATH=/usr/sbin/:/sbin/:/usr/local/bin:/usr/bin:/Users/mrobinson/puppet-ng/administration-tools/bin:$PATH
 export PATH
 
@@ -31,8 +45,6 @@ fi
 
 # This will cause bash to fix a garbled terminal before the prompt is printed. For example, if you cat a file with nonprintable character sequences, the terminal sometimes ends up in a mode where it only prints line drawing characters. This sequence will return the terminal to the standard character set after every command.
 export PS1="\[\017\033[m\033[?9l\033[?1000l\]$PS1"
-
-export LD_LIBRARY_PATH=/usr/local/lib/:$LD_LIBRARY_PATH
 
 # extend history
 export HISTSIZE=100000
@@ -58,7 +70,7 @@ alias serveThis='python -m SimpleHTTPServer 9876'
 alias fgerp='fgrep'
 alias sv='source venv/bin/activate'
 alias v2='virtualenv -p python2 venv && source venv/bin/activate'
-alias v3='virtualenv -p python3 venv && source venv/bin/activate'
+alias v3='python3 -m venv venv && source venv/bin/activate'
 alias tv='terminal_velocity'
 
 #tmuxinator
@@ -88,9 +100,27 @@ tput smkx
 
 # python rc
 export PYTHONSTARTUP=~/.pythonstartup
+# For use with breakpoint()
+export PYTHONBREAKPOINT=ipdb.set_trace
 
 #source ~/.profile
-source git-completion.bash
+source ~/git-completion.bash
 source ~/.shell_prompt.sh
+# eval "$(pyenv init -)"
 export PATH=/usr/local/sbin:/usr/sbin/:/sbin/:/usr/local/bin:/usr/bin:/Users/mrobinson/puppet-ng/administration-tools/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/sbin/:/sbin/:/Users/mrobinson/puppet-ng/administration-tools/bin:~/.proofpoint/rbenv/bin:$PATH
 #eval "$(rbenv init -)"
+
+statusall () {
+    repos=$(find . -name .git 2> /dev/null)
+    for repo in $repos
+        do
+            workingpath=$(dirname $repo)
+            base=$(basename "${workingpath}")
+            echo "${PWD}/${base}"
+            git -C ${repo}/.. status -s
+        done
+}
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh"  ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion"  ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion

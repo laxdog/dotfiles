@@ -68,9 +68,9 @@ set background=dark
 
 let python_highlight_all=1
 syntax on
-map <leader>1 :TagbarToggle<CR>
+map <leader>1 :NERDTreeTabsToggle<CR>
 map <leader>2 :NERDTreeFocusToggle  <CR>
-map <leader>3 :NERDTreeTabsToggle<CR>
+map <leader>3 :TagbarToggle<CR>
 map <leader>4 :set nu! <CR>
 map <leader>5 :set paste!<CR>
 map <leader>6 :SyntasticToggleMode<CR><CR>
