@@ -5,16 +5,17 @@ brew install automake gcc cmake make
 brew install python python3 node terraform packer
 brew install ctags 
 brew install git tig 
-brew install tmux tmate bash-completion zsh-completion zsh-syntax-highlighting
+brew install tmux tmuxinator tmate bash-completion zsh-completion zsh-syntax-highlighting
 brew install btop htop 
 brew install nmap wget mtr speedtest-cli
-brew install dos2unix jq watch coreutils fzf bat fd the_silver_searcher
+brew install dos2unix jq watch coreutils fzf bat fd the_silver_searcher zoxide
 brew install ncdu tree 
 brew install p7zip rar
 
+brew install --cask visual-studio-code
 brew install --cask iterm2 docker
 brew install --cask signal whatsapp discord
-brew install --cask spotify gimp
+brew install --cask spotify gimp firefox
 brew tap homebrew/cask-fonts && brew install --cask font-hack font-source-code-pro font-terminus
 # echo "Install XCode from the app store, then press enter..."
 # read
@@ -28,4 +29,4 @@ brew update && brew upgrade `brew outdated`
 # brew linkapps
 brew cleanup
 
-echo "Done" | /opt/homebrew/bin/terminal-notifier
+echo "Done" | /opt/homebrew/bin/terminal-notifier -sound default

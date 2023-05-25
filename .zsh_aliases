@@ -1,0 +1,36 @@
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+
+if [ "$machine" == "Mac" ]
+then
+  alias updatedb="sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist"
+fi
+
+alias ports="sudo ssh -L 3128:10.0.2.1:3128 -L 993:10.0.2.1:993 -L 443:10.0.2.1:443 -D 12345 michaelr@wombat64"
+alias ll='ls -latrh'
+alias lss='ll'
+alias sl='ll'
+alias l='ll'
+alias t='tmux a || tmux'
+
+alias fgerp='fgrep'
+alias sv='source venv/bin/activate'
+alias v2='virtualenv -p python2 venv && source venv/bin/activate'
+alias v3='python3 -m venv venv && source venv/bin/activate'
+
+statusall () {
+    repos=$(find . -name .git 2> /dev/null)
+    for repo in $repos
+        do
+            workingpath=$(dirname $repo)
+            base=$(basename "${workingpath}")
+            echo "${PWD}/${base}"
+            git -C ${repo}/.. status -s
+        done
+}

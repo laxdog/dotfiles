@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Set the path for the new dotfiles
+SOURCE_DIR="$HOME/source/dotfiles"
+
+# Define the list of dotfiles
+DOTFILES=(".vimrc" ".tmux.conf" ".zshrc" ".zsh_aliases")
+
+for dotfile in "${DOTFILES[@]}"; do
+
+    # Set the path for the existing dotfile
+    ORIGINAL_DOTFILE="$HOME/$dotfile"
+
+    # Set the path for the new dotfile
+    NEW_DOTFILE="$SOURCE_DIR/$dotfile"
+
+    # Get the current date and time
+    CURRENT_DATETIME=$(date +%Y%m%d%H%M%S)
+
+    # Check if the original dotfile exists
+    if [ -f "$ORIGINAL_DOTFILE" ]; then
+        # Check if the contents of the existing dotfile and the new one are the same
+        if cmp -s "$ORIGINAL_DOTFILE" "$NEW_DOTFILE"; then
+            echo "The $dotfile in your home directory is the same as the one in $SOURCE_DIR, no action will be taken."
+            continue
+        fi
+
+        # Create a backup of the original dotfile with a unique name
+        cp $ORIGINAL_DOTFILE "$ORIGINAL_DOTFILE.bak.$CURRENT_DATETIME"
+        echo "Backup created for the existing $dotfile at $ORIGINAL_DOTFILE.bak.$CURRENT_DATETIME"
+    fi
+
+    # Remove the original dotfile
+    rm -f $ORIGINAL_DOTFILE
+
+    # Create a symbolic link to the new dotfile
+    ln -s $NEW_DOTFILE $ORIGINAL_DOTFILE
+
+    echo "A symbolic link to the new $dotfile is created at $ORIGINAL_DOTFILE"
+
+done
+
