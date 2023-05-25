@@ -15,7 +15,6 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'jistr/vim-nerdtree-tabs'
@@ -35,6 +34,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'powerman/vim-plugin-AnsiEsc'
+Plugin 'dracula/vim', { 'name': 'dracula' }
 
 Bundle 'jiangmiao/auto-pairs'
 Bundle 'chrisbra/csv.vim'
@@ -42,7 +42,10 @@ Bundle 'martinda/Jenkinsfile-vim-syntax'
 " Bundle 'edkolev/tmuxline.vim'
 Bundle 'majutsushi/tagbar'
 Bundle 'edkolev/promptline.vim'
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
 
+colorscheme dracula 
 
 " Add all your plugins here (note older versions of Vundle used Bundle instead
 " of Plugin)
@@ -54,8 +57,6 @@ autocmd VimEnter * nested :call tagbar#autoopen(1)
 " Rainbow brackets (from Plugin 'luochen1990/rainbow')
 let g:rainbow_active = 1
 "
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
 filetype off
 filetype plugin indent on    " required
 
@@ -64,8 +65,6 @@ filetype plugin indent on    " required
 
 syntax enable
 set t_Co=256
-let g:solarized_termcolors=16
-colorscheme solarized
 set background=dark
 
 let python_highlight_all=1
