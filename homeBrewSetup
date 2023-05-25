@@ -3,7 +3,7 @@
 # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew install automake gcc cmake make 
 brew install python python3 node terraform packer
-brew install ctags 
+brew install ctags thefuck
 brew install git tig 
 brew install tmux tmuxinator tmate bash-completion zsh-completion zsh-syntax-highlighting
 brew install btop htop 
@@ -25,8 +25,7 @@ brew tap homebrew/cask-fonts && brew install --cask font-hack font-source-code-p
 brew install uptimed
 brew services start uptimed
 
-brew update && brew upgrade `brew outdated`
-# brew linkapps
+brew update && brew upgrade
 brew cleanup
 
 echo "Done" | /opt/homebrew/bin/terminal-notifier -sound default

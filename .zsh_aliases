@@ -7,7 +7,7 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 
-if [ "$machine" == "Mac" ]
+if [ "$machine" = "Mac" ]
 then
   alias updatedb="sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist"
 fi

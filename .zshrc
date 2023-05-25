@@ -71,7 +71,16 @@ ZSH_THEME="amuse" # set by `omz`
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+    ag
+    aliases
+    command-not-found
     git
+    gnu-utils
+    nmap
+    tig
+    timer
+    thefuck
+    tmux
     zsh-syntax-highlighting
     zsh-autosuggestions
     zsh-completions
