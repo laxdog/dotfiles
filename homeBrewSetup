@@ -2,7 +2,7 @@
 
 # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew install automake gcc cmake make 
-brew install python python3 node terraform packer
+brew install python python3 node terraform packer ansible ansible-lint
 brew install ctags thefuck
 brew install git tig 
 brew install tmux tmuxinator tmate bash-completion zsh-completion zsh-syntax-highlighting
@@ -12,9 +12,9 @@ brew install dos2unix jq watch coreutils fzf bat fd the_silver_searcher zoxide
 brew install ncdu tree 
 brew install p7zip rar
 
-brew install --cask visual-studio-code
+brew install --cask visual-studio-code meld
 brew install --cask iterm2 docker
-brew install --cask signal whatsapp discord
+brew install --cask signal whatsapp discord authy krisp
 brew install --cask spotify gimp firefox
 brew tap homebrew/cask-fonts && brew install --cask font-hack font-source-code-pro font-terminus
 # echo "Install XCode from the app store, then press enter..."
