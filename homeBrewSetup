@@ -3,11 +3,11 @@
 # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew install automake gcc cmake make 
 brew install python python3 node terraform packer ansible ansible-lint
-brew install ctags thefuck
-brew install git tig 
+brew install ctags 
+brew install git tig vim
 brew install tmux tmuxinator tmate bash-completion zsh-completion zsh-syntax-highlighting
 brew install btop htop 
-brew install nmap wget mtr speedtest-cli
+brew install nmap wget mtr speedtest-cli telnet
 brew install dos2unix jq watch coreutils fzf bat fd the_silver_searcher zoxide
 brew install ncdu tree 
 brew install p7zip rar
