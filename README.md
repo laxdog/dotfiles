@@ -8,11 +8,14 @@ Then inside vim call
 
 After they all install, you need to do this to get YouCompleteMe working
 
-sudo install automake gcc gcc-c++ kernel-devel cmake make python-devel python3-devel
+# RHEL / fed
+sudo dnf install automake gcc gcc-c++ kernel-devel cmake make python-devel python3-devel
 
-or
-
+# Mac
 brew install automake gcc cmake make python python3 ctags
+
+# Ubuntu / Deb
+sudo apt-get install automake gcc g++ linux-headers-$(uname -r) cmake make python3-dev
 
 ctags is required for TagBar
 
