@@ -1,0 +1,22 @@
+# colors
+color date          27  default
+color cursor        22  green
+color graph-commit  33  default
+
+color main-tag          red default
+color main-local-tag    magenta default
+color main-remote       cyan default
+color main-ref          87 default
+color main-head         226 default bold
+color main-tracked      39 default
+color diff-stat         33 default
+
+color "index "          cyan default
+color "@@"              cyan default
+color "commit "         black default
+color "Refs: "          cyan default
+color "Author: "        cyan default
+color "AuthorDate: "    cyan default
+color "Commit: "        cyan default
+color "CommitDate: "    cyan default
+
