@@ -116,3 +116,5 @@ source $ZSH/oh-my-zsh.sh
 
 # Dog : aliases
 source ~/.zsh_aliases
+eval "$(atuin init zsh --disable-up-arrow)"
+eval "$(zoxide init zsh)"
