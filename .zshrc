@@ -118,3 +118,7 @@ source $ZSH/oh-my-zsh.sh
 source ~/.zsh_aliases
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(zoxide init zsh)"
+# Per session histoy
+unsetopt inc_append_history
+unsetopt share_history
+
