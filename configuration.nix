@@ -110,6 +110,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     atuin
+    bat
     btop
     discord
     git
@@ -123,6 +124,7 @@
     steam
     python3
     tig
+    tldr
     tor-browser
     unzip
     uptimed
