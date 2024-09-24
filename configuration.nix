@@ -119,16 +119,19 @@
     htop
     iotop
     lsof
+    mixxx
     neofetch
+    silver-searcher
     slack
     steam
     python3
     tig
     tldr
+    tmux
     tor-browser
     unzip
     uptimed
-    vim
+    vim-full
     wget
     yt-dlp
     zip
