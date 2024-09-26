@@ -34,3 +34,15 @@ statusall () {
             git -C ${repo}/.. status -s
         done
 }
+
+# Highlight tmux pane when in a prod dir
+function cd() {
+    builtin cd "$@"  # Use the default cd function
+
+    if [[ "$PWD" == *production* ]]; then
+        tmux select-pane -P 'bg=#2F0000,fg=default'  # Dark red background for the current pane
+    else
+        tmux select-pane -P 'bg=default,fg=default'  # Revert to default colors for the current pane
+    fi
+}
+
