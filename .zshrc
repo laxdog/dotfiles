@@ -122,3 +122,15 @@ eval "$(zoxide init zsh)"
 unsetopt inc_append_history
 unsetopt share_history
 
+
+# bun
+export BUN_INSTALL="$HOME/Library/Application Support/reflex/bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+# export DOCKER_HOST=unix:///var/run/docker.sock
+# export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
+# export DOCKER_HOST=unix:///run/user/501/podman/podman.sock
+unset DOCKER_HOST
+if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
+    export TERM=xterm-256color
+fi
+
