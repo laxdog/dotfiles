@@ -71,7 +71,6 @@ ZSH_THEME="amuse" # set by `omz`
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    ag
     aliases
     command-not-found
     git
@@ -134,3 +133,5 @@ if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
     export TERM=xterm-256color
 fi
 
+autoload -U +X bashcompinit && bashcompinit
+complete -o default -C /opt/homebrew/bin/ipinfo ipinfo
