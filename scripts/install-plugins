@@ -30,9 +30,39 @@ clone_if_missing https://github.com/zsh-users/zsh-syntax-highlighting.git \
 clone_if_missing https://github.com/tmux-plugins/tpm.git \
   "$HOME/.tmux/plugins/tpm"
 mkdir -p "$HOME/.vim/pack/dotfiles/start"
-clone_if_missing https://github.com/godlygeek/tabular.git \
-  "$HOME/.vim/pack/dotfiles/start/tabular"
-clone_if_missing https://github.com/preservim/vim-markdown.git \
-  "$HOME/.vim/pack/dotfiles/start/vim-markdown"
+vim_plugins="$HOME/.vim/pack/dotfiles/start"
+while IFS='|' read -r repository directory; do
+  clone_if_missing "https://github.com/$repository.git" "$vim_plugins/$directory"
+done <<'EOF'
+hynek/vim-python-pep8-indent|vim-python-pep8-indent
+jistr/vim-nerdtree-tabs|vim-nerdtree-tabs
+jlanzarotta/bufexplorer|bufexplorer
+jnurmine/Zenburn|Zenburn
+luochen1990/rainbow|rainbow
+nathanaelkane/vim-indent-guides|vim-indent-guides
+nvie/vim-flake8|vim-flake8
+preservim/nerdtree|nerdtree
+vim-syntastic/syntastic|syntastic
+tmhedberg/SimpylFold|SimpylFold
+tpope/vim-commentary|vim-commentary
+tpope/vim-fugitive|vim-fugitive
+tpope/vim-unimpaired|vim-unimpaired
+vim-airline/vim-airline|vim-airline
+vim-airline/vim-airline-themes|vim-airline-themes
+sheerun/vim-polyglot|vim-polyglot
+powerman/vim-plugin-AnsiEsc|vim-plugin-AnsiEsc
+dracula/vim|dracula
+jiangmiao/auto-pairs|auto-pairs
+chrisbra/csv.vim|csv.vim
+martinda/Jenkinsfile-vim-syntax|Jenkinsfile-vim-syntax
+preservim/tagbar|tagbar
+edkolev/promptline.vim|promptline.vim
+godlygeek/tabular|tabular
+preservim/vim-markdown|vim-markdown
+EOF
+
+if command -v vim >/dev/null 2>&1; then
+  vim -Nu NONE -n -es --cmd 'packloadall' +'helptags ALL' +quit
+fi
 
 printf '%s\n' 'Plugins installed. Restart zsh/Vim; in tmux press prefix + I.'

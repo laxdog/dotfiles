@@ -39,9 +39,8 @@ Optional shell and tmux plugins can be installed separately:
 ./install --plugins
 ```
 
-The plugin step clones Oh My Zsh, the three zsh plugins used here, TPM, and the
-Tabular and vim-markdown plugins. It is safe to run again; existing clones are
-left untouched.
+The plugin step installs Oh My Zsh, the configured zsh and Vim plugins, and
+TPM. It is safe to run again; existing clones are left untouched.
 
 ## Packages
 
