@@ -67,3 +67,19 @@ awsip() {
           ((.SGs // []) | join(",")), (.PrivateDNS // "")] | @tsv)
     ' | column -t -s $'\t'
 }
+
+# Print the private IP address for an EC2 instance.
+ec2ip() {
+  if [[ -z "$1" ]]; then
+    print -u2 'Usage: ec2ip <instance-id> [region]'
+    return 1
+  fi
+
+  local -a region_args
+  [[ -n "$2" ]] && region_args=(--region "$2")
+  aws ec2 describe-instances \
+    --instance-ids "$1" \
+    "${region_args[@]}" \
+    --query 'Reservations[0].Instances[0].PrivateIpAddress' \
+    --output text
+}

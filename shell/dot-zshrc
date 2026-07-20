@@ -5,11 +5,20 @@ elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
+path=("$HOME/bin" "$HOME/.cargo/bin" "$HOME/.local/bin" $path)
+if (( $+commands[go] )); then
+  path=("$(go env GOPATH)/bin" $path)
+else
+  path=("$HOME/go/bin" $path)
+fi
+typeset -U path PATH
+
 export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
 ZSH_THEME="amuse"
 
 plugins=(aliases git timer tmux)
 (( $+commands[tig] )) && plugins+=(tig)
+(( $+commands[nmap] )) && plugins+=(nmap)
 
 for plugin in zsh-syntax-highlighting zsh-autosuggestions zsh-completions; do
   [[ -d "${ZSH_CUSTOM:-$ZSH/custom}/plugins/$plugin" || \
@@ -44,6 +53,10 @@ fi
 
 if [[ -d "$HOME/.codeium/windsurf/bin" ]]; then
   path=("$HOME/.codeium/windsurf/bin" $path)
+fi
+
+if [[ -d "$HOME/.lmstudio/bin" ]]; then
+  path+=("$HOME/.lmstudio/bin")
 fi
 
 unset DOCKER_HOST
