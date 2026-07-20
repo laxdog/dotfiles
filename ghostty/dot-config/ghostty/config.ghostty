@@ -5,7 +5,7 @@ palette = 0=#71727c
 # minimum-contrast = 1.4
 
 # Fixes readline keys etc.
-shell-integration-features = no-cursor
+shell-integration-features = no-cursor,ssh-env
 shell-integration = zsh
 window-save-state = always
 
@@ -21,4 +21,3 @@ clipboard-trim-trailing-spaces = true
 copy-on-select = clipboard
 
 scrollback-limit = 134217728
-term = xterm-256color
