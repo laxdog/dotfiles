@@ -1,0 +1,44 @@
+# Oh My Zsh is optional: this file remains usable before plugins are installed.
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
+ZSH_THEME="amuse"
+
+plugins=(aliases git timer tmux)
+(( $+commands[tig] )) && plugins+=(tig)
+
+for plugin in zsh-syntax-highlighting zsh-autosuggestions zsh-completions; do
+  [[ -d "${ZSH_CUSTOM:-$ZSH/custom}/plugins/$plugin" || \
+     -d "$ZSH/plugins/$plugin" ]] && plugins+=("$plugin")
+done
+
+if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
+  source "$ZSH/oh-my-zsh.sh"
+else
+  autoload -Uz compinit && compinit
+fi
+
+source "$HOME/.zsh_aliases"
+
+command -v atuin >/dev/null 2>&1 && eval "$(atuin init zsh --disable-up-arrow)"
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+
+# Keep history local to each shell session.
+unsetopt inc_append_history
+unsetopt share_history
+
+if [[ -d "$HOME/Library/Application Support/reflex/bun/bin" ]]; then
+  export BUN_INSTALL="$HOME/Library/Application Support/reflex/bun"
+  path=("$BUN_INSTALL/bin" $path)
+fi
+
+unset DOCKER_HOST
+
+if (( $+commands[ipinfo] )); then
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o default -C "${commands[ipinfo]}" ipinfo
+fi

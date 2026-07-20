@@ -1,0 +1,47 @@
+set nocompatible
+filetype plugin indent on
+syntax enable
+
+let mapleader = "1"
+
+set backspace=indent,eol,start
+set background=dark
+set cmdheight=1
+set cursorline
+set expandtab
+set foldlevel=99
+set foldmethod=indent
+set hidden
+set hlsearch
+set ignorecase
+set lazyredraw
+set shiftwidth=4
+set showmatch
+set sidescrolloff=5
+set smartcase
+set softtabstop=4
+set splitbelow
+set splitright
+set tabstop=4
+set ttyfast
+set wildmenu
+
+nnoremap <space> za
+nnoremap <leader>4 :set number!<CR>
+nnoremap <leader>5 :set paste!<CR>
+nnoremap <leader>7 :if exists("syntax_on") \| syntax off \| else \| syntax on \| endif<CR>
+nnoremap <leader>9 :set wrap!<CR>
+nnoremap <leader><Right> :tabnext<CR>
+nnoremap <leader><Left> :tabprevious<CR>
+
+if &diff
+  set diffopt+=iwhite
+endif
+
+augroup dotfiles
+  autocmd!
+  autocmd BufNewFile,BufRead *.py setlocal textwidth=119 fileformat=unix
+augroup END
+
+highlight BadWhitespace ctermbg=red guibg=darkred
+autocmd dotfiles BufNewFile,BufRead *.py match BadWhitespace /\s\+$/

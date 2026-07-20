@@ -1,0 +1,32 @@
+alias ll='ls -latrh'
+alias lss='ll'
+alias sl='ll'
+alias l='ll'
+alias t='tmux attach-session 2>/dev/null || tmux new-session'
+
+alias sv='source venv/bin/activate'
+alias v3='python3 -m venv venv && source venv/bin/activate'
+
+statusall() {
+  local git_dir repo
+
+  while IFS= read -r -d '' git_dir; do
+    repo="${git_dir:h}"
+    print -r -- "$repo"
+    git -C "$repo" status --short
+  done < <(find . -type d -name .git -prune -print0 2>/dev/null)
+}
+
+# Highlight the current tmux pane while working in a production directory.
+_production_pane_colour() {
+  [[ -n "$TMUX" ]] || return
+
+  if [[ "$PWD" == *production* ]]; then
+    tmux select-pane -P 'bg=#6F0000,fg=default'
+  else
+    tmux select-pane -P 'bg=default,fg=default'
+  fi
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd _production_pane_colour

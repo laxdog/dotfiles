@@ -1,0 +1,5 @@
+# macOS-only overrides. Ghostty loads this after ~/.config/ghostty/config.ghostty.
+macos-option-as-alt = left
+macos-non-native-fullscreen = true
+auto-update = check
+auto-update-channel = tip

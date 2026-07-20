@@ -1,0 +1,33 @@
+#!/bin/sh
+set -eu
+
+clone_if_missing() {
+  url=$1
+  destination=$2
+  if [ -d "$destination/.git" ]; then
+    printf 'Already installed: %s\n' "$destination"
+  else
+    git clone --depth=1 "$url" "$destination"
+  fi
+}
+
+zsh_dir=${ZSH:-"$HOME/.oh-my-zsh"}
+custom_dir=${ZSH_CUSTOM:-"$zsh_dir/custom"}
+
+command -v git >/dev/null 2>&1 || {
+  printf '%s\n' 'git is required to install plugins.' >&2
+  exit 1
+}
+
+clone_if_missing https://github.com/ohmyzsh/ohmyzsh.git "$zsh_dir"
+mkdir -p "$custom_dir/plugins" "$HOME/.tmux/plugins"
+clone_if_missing https://github.com/zsh-users/zsh-autosuggestions.git \
+  "$custom_dir/plugins/zsh-autosuggestions"
+clone_if_missing https://github.com/zsh-users/zsh-completions.git \
+  "$custom_dir/plugins/zsh-completions"
+clone_if_missing https://github.com/zsh-users/zsh-syntax-highlighting.git \
+  "$custom_dir/plugins/zsh-syntax-highlighting"
+clone_if_missing https://github.com/tmux-plugins/tpm.git \
+  "$HOME/.tmux/plugins/tpm"
+
+printf '%s\n' 'Plugins installed. Start a new zsh session; in tmux press prefix + I.'

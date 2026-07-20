@@ -1,0 +1,115 @@
+#!/bin/sh
+set -eu
+
+repo_dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
+action=stow
+dry_run=
+install_plugins=false
+backup_conflicts=false
+
+usage() {
+  printf '%s\n' \
+    'Usage: ./install [--backup] [--dry-run] [--plugins] [--uninstall]' \
+    '' \
+    '  --backup     Back up conflicting files before installing' \
+    '  --dry-run    Show what Stow would change' \
+    '  --plugins    Also install Oh My Zsh, zsh plugins, and TPM' \
+    '  --uninstall  Remove links created by Stow'
+}
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --backup) backup_conflicts=true ;;
+    --dry-run) dry_run='--simulate --verbose=2' ;;
+    --plugins) install_plugins=true ;;
+    --uninstall) action=delete ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
+  esac
+  shift
+done
+
+install_stow() {
+  if [ -n "$dry_run" ]; then
+    printf '%s\n' 'GNU Stow is required to perform a dry run.' >&2
+    exit 1
+  fi
+
+  printf '%s\n' 'GNU Stow is required; installing it with the available package manager.'
+  if command -v brew >/dev/null 2>&1; then
+    brew install stow
+  elif command -v apt-get >/dev/null 2>&1; then
+    as_root apt-get update
+    as_root apt-get install -y stow
+  elif command -v dnf >/dev/null 2>&1; then
+    as_root dnf install -y stow
+  elif command -v pacman >/dev/null 2>&1; then
+    as_root pacman -S --needed stow
+  else
+    printf '%s\n' 'Install GNU Stow, then run this installer again.' >&2
+    exit 1
+  fi
+}
+
+as_root() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  elif command -v sudo >/dev/null 2>&1; then
+    sudo "$@"
+  else
+    printf '%s\n' 'Root access is required to install GNU Stow.' >&2
+    exit 1
+  fi
+}
+
+command -v stow >/dev/null 2>&1 || install_stow
+
+backup_managed_files() {
+  backup_root="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
+
+  while IFS= read -r relative_path; do
+    target="$HOME/$relative_path"
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+      backup="$backup_root/$relative_path"
+      mkdir -p "$(dirname -- "$backup")"
+      mv "$target" "$backup"
+      printf 'Backed up %s to %s\n' "$target" "$backup"
+    fi
+  done <<'EOF'
+.zshrc
+.zsh_aliases
+.vimrc
+.tmux.conf
+.tigrc
+.config/bat/config
+.config/ghostty/config.ghostty
+Library/Application Support/com.mitchellh.ghostty/config.ghostty
+EOF
+}
+
+packages='shell vim tmux tig bat ghostty'
+if [ "$(uname -s)" = Darwin ]; then
+  packages="$packages macos"
+fi
+
+if [ "$action" = delete ]; then
+  # shellcheck disable=SC2086
+  stow --dir="$repo_dir" --target="$HOME" --dotfiles --delete $dry_run $packages
+  exit 0
+fi
+
+if [ "$backup_conflicts" = true ]; then
+  if [ -n "$dry_run" ]; then
+    printf '%s\n' '--backup cannot be combined with --dry-run.' >&2
+    exit 2
+  fi
+  backup_managed_files
+fi
+
+# Word splitting is intentional for the option and package lists.
+# shellcheck disable=SC2086
+stow --dir="$repo_dir" --target="$HOME" --dotfiles --restow $dry_run $packages
+
+if [ "$install_plugins" = true ] && [ -z "$dry_run" ]; then
+  "$repo_dir/scripts/install-plugins"
+fi
