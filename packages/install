@@ -52,6 +52,40 @@ as_root() {
   fi
 }
 
+install_legcord() {
+  command -v legcord >/dev/null 2>&1 && return
+
+  architecture=$(dpkg --print-architecture)
+  legcord_url=$(curl -fsSL https://api.github.com/repos/Legcord/Legcord/releases/latest | \
+    jq -r --arg suffix "-${architecture}.deb" \
+      '[.assets[].browser_download_url | select(endswith($suffix))][0] // empty')
+  if [ -z "$legcord_url" ]; then
+    printf 'No Legcord package was found for architecture %s.\n' "$architecture" >&2
+    exit 1
+  fi
+
+  legcord_package=$(mktemp --suffix=.deb)
+  curl -fsSL "$legcord_url" -o "$legcord_package"
+  as_root apt-get install -y "$legcord_package"
+  rm -f "$legcord_package"
+}
+
+install_mullvad() {
+  command -v mullvad >/dev/null 2>&1 && return
+
+  mullvad_key=$(mktemp)
+  mullvad_source=$(mktemp)
+  curl -fsSL https://repository.mullvad.net/deb/mullvad-keyring.asc \
+    -o "$mullvad_key"
+  printf 'deb [signed-by=/usr/share/keyrings/mullvad-keyring.asc arch=%s] https://repository.mullvad.net/deb/stable stable main\n' \
+    "$(dpkg --print-architecture)" >"$mullvad_source"
+  as_root install -m 0644 "$mullvad_key" /usr/share/keyrings/mullvad-keyring.asc
+  as_root install -m 0644 "$mullvad_source" /etc/apt/sources.list.d/mullvad.list
+  rm -f "$mullvad_key" "$mullvad_source"
+  as_root apt-get update
+  as_root apt-get install -y mullvad-vpn
+}
+
 install_homebrew() {
   if [ "$bundle_action" = check ]; then
     printf '%s\n' 'Homebrew is not installed.' >&2
@@ -131,3 +165,25 @@ for profile in $profiles; do
   # shellcheck disable=SC2086
   brew bundle "$bundle_action" --file="$brewfile" $upgrade_flag
 done
+
+case " $profiles " in
+  *' personal '*)
+    if [ "$(uname -s)" = Linux ]; then
+      if [ "$bundle_action" = install ]; then
+        install_legcord
+        install_mullvad
+      else
+        native_missing=false
+        command -v legcord >/dev/null 2>&1 || {
+          printf '%s\n' 'Missing native package: Legcord' >&2
+          native_missing=true
+        }
+        command -v mullvad >/dev/null 2>&1 || {
+          printf '%s\n' 'Missing native package: Mullvad VPN' >&2
+          native_missing=true
+        }
+        [ "$native_missing" = false ]
+      fi
+    fi
+    ;;
+esac

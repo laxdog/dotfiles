@@ -3,6 +3,7 @@ tap "hashicorp/tap"
 
 brew "ansible"
 brew "ansible-lint"
+brew "awscli"
 brew "atuin"
 brew "bat"
 brew "btop"
@@ -43,14 +44,12 @@ brew "zsh"
 
 # Graphical terminal and fonts used by the managed configurations.
 cask "ghostty" if OS.mac?
+cask "claude-code"
+cask "codex"
 cask "font-hack" if OS.mac?
 cask "font-source-code-pro" if OS.mac?
 cask "font-terminus" if OS.mac?
 cask "docker" if OS.mac?
-cask "meld" if OS.mac?
-cask "slack" if OS.mac?
 cask "visual-studio-code" if OS.mac?
 
-flatpak "com.slack.Slack", remote: "flathub" if OS.linux?
 flatpak "com.visualstudio.code", remote: "flathub" if OS.linux?
-flatpak "org.gnome.meld", remote: "flathub" if OS.linux?

@@ -1,26 +1,17 @@
 # Media utilities.
-brew "ffmpeg"
-brew "sevenzip"
-brew "yt-dlp"
+brew "ffmpeg" if OS.linux?
+brew "sevenzip" if OS.linux?
+brew "yt-dlp" if OS.linux?
 
-# Desktop applications.
-cask "brave-browser" if OS.mac?
-cask "discord" if OS.mac?
-cask "firefox" if OS.mac?
-cask "gimp" if OS.mac?
-cask "signal" if OS.mac?
-cask "spotify" if OS.mac?
-cask "steam" if OS.mac?
-cask "vlc" if OS.mac?
-cask "whatsapp" if OS.mac?
-cask "mixxx" if OS.mac?
-
+# Desktop applications on Ubuntu.
 flatpak "com.brave.Browser", remote: "flathub" if OS.linux?
-flatpak "com.discordapp.Discord", remote: "flathub" if OS.linux?
+flatpak "com.bitwarden.desktop", remote: "flathub" if OS.linux?
+flatpak "com.github.IsmaelMartinez.teams_for_linux", remote: "flathub" if OS.linux?
+flatpak "com.github.iwalton3.jellyfin-media-player", remote: "flathub" if OS.linux?
+flatpak "com.mastermindzh.tidal-hifi", remote: "flathub" if OS.linux?
+flatpak "com.rtosta.zapzap", remote: "flathub" if OS.linux?
+flatpak "md.obsidian.Obsidian", remote: "flathub" if OS.linux?
 flatpak "org.mozilla.firefox", remote: "flathub" if OS.linux?
-flatpak "org.gimp.GIMP", remote: "flathub" if OS.linux?
 flatpak "org.signal.Signal", remote: "flathub" if OS.linux?
-flatpak "com.spotify.Client", remote: "flathub" if OS.linux?
 flatpak "com.valvesoftware.Steam", remote: "flathub" if OS.linux?
-flatpak "org.videolan.VLC", remote: "flathub" if OS.linux?
-flatpak "org.mixxx.Mixxx", remote: "flathub" if OS.linux?
+flatpak "org.telegram.desktop", remote: "flathub" if OS.linux?
