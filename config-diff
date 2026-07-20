@@ -1,0 +1,90 @@
+#!/bin/sh
+set -u
+
+repo_dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
+fetch=true
+different=false
+
+usage() {
+  printf '%s\n' \
+    'Usage: ./config-diff [--no-fetch]' \
+    '' \
+    'Compare this checkout, its upstream branch, and installed configuration.'
+}
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --no-fetch) fetch=false ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
+  esac
+  shift
+done
+
+cd "$repo_dir" || exit 1
+
+upstream=$(git rev-parse --abbrev-ref '@{upstream}' 2>/dev/null || true)
+if [ "$fetch" = true ] && [ -n "$upstream" ]; then
+  printf '%s\n' 'Fetching upstream changes...'
+  if ! git fetch --quiet; then
+    printf '%s\n' 'warning: unable to fetch upstream changes' >&2
+    different=true
+  fi
+fi
+
+if [ -n "$upstream" ]; then
+  # rev-list prints the number of commits unique to HEAD, then to upstream.
+  counts=$(git rev-list --left-right --count "HEAD...$upstream")
+  ahead=$(printf '%s\n' "$counts" | cut -f1)
+  behind=$(printf '%s\n' "$counts" | cut -f2)
+  printf 'Repository: %s ahead, %s behind %s\n' "$ahead" "$behind" "$upstream"
+  if [ "$behind" -gt 0 ]; then
+    git log --oneline "HEAD..$upstream"
+    different=true
+  fi
+else
+  printf '%s\n' 'Repository: no upstream branch configured'
+fi
+
+if [ -n "$(git status --short)" ]; then
+  printf '\n%s\n' 'Uncommitted repository changes:'
+  git status --short
+  git diff --
+  git diff --cached --
+  different=true
+fi
+
+compare_config() {
+  source_path=$1
+  target_path=$2
+
+  if [ ! -e "$HOME/$target_path" ]; then
+    printf '\nMissing: ~/%s\n' "$target_path"
+    different=true
+  elif ! cmp -s "$repo_dir/$source_path" "$HOME/$target_path"; then
+    printf '\nDifferent: ~/%s\n' "$target_path"
+    diff -u "$repo_dir/$source_path" "$HOME/$target_path" || true
+    different=true
+  fi
+}
+
+compare_config shell/dot-zshrc .zshrc
+compare_config shell/dot-zsh_aliases .zsh_aliases
+compare_config vim/dot-vimrc .vimrc
+compare_config tmux/dot-tmux.conf .tmux.conf
+compare_config tig/dot-tigrc .tigrc
+compare_config bat/dot-config/bat/config .config/bat/config
+compare_config ghostty/dot-config/ghostty/config.ghostty .config/ghostty/config.ghostty
+
+if [ "$(uname -s)" = Darwin ]; then
+  compare_config \
+    'macos/Library/Application Support/com.mitchellh.ghostty/config.ghostty' \
+    'Library/Application Support/com.mitchellh.ghostty/config.ghostty'
+fi
+
+if [ "$different" = false ]; then
+  printf '\n%s\n' 'Everything is up to date.'
+  exit 0
+fi
+
+exit 1

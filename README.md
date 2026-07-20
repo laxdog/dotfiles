@@ -39,15 +39,16 @@ Optional shell and tmux plugins can be installed separately:
 ./install --plugins
 ```
 
-The plugin step clones Oh My Zsh, the three zsh plugins used here, and TPM. It
-is safe to run again; existing clones are left untouched.
+The plugin step clones Oh My Zsh, the three zsh plugins used here, TPM, and the
+Tabular and vim-markdown plugins. It is safe to run again; existing clones are
+left untouched.
 
 ## Packages
 
 Standard software is declared in two Homebrew Bundle profiles:
 
 - `common`: shell, terminal, development, infrastructure, and everyday tools
-- `personal`: browsers, communication, gaming, and media applications
+- `personal`: Ubuntu-only browsers, communication, gaming, and media applications
 
 `common` is always installed. Select one or both machine roles with:
 
@@ -57,11 +58,14 @@ Standard software is declared in two Homebrew Bundle profiles:
 ./packages/install all
 ```
 
-The installer uses Homebrew formulae on both macOS and Ubuntu, macOS casks for
-desktop applications, and Flathub on Ubuntu. On Ubuntu, Docker Engine is
-installed through apt because a Homebrew Docker package would provide only the
-client. Homebrew, its Ubuntu build prerequisites, Flatpak, and Docker are
-bootstrapped when needed.
+The `personal` profile is intentionally empty on macOS.
+
+The installer uses Homebrew formulae on both macOS and Ubuntu, supported casks
+for Codex and Claude Code, macOS casks for desktop applications, and Flathub on
+Ubuntu. On Ubuntu, Docker Engine is installed through apt, Legcord comes from
+its official GitHub release, and Mullvad comes from its official apt repository.
+Homebrew, its Ubuntu build prerequisites, Flatpak, and Docker are bootstrapped
+when needed.
 
 Package runs do not upgrade already-installed software by default. Use
 `--upgrade` to request upgrades, or inspect missing dependencies without making
@@ -71,6 +75,19 @@ changes:
 ./packages/install --check common
 ./packages/install --upgrade all
 ```
+
+## Check configuration
+
+Run the read-only configuration check on any machine:
+
+```sh
+./config-diff
+```
+
+It fetches the configured Git upstream, reports whether the checkout is ahead
+or behind, displays uncommitted repository changes, and compares every managed
+file with the installed file under `$HOME`. Differences produce a non-zero exit
+status. Use `./config-diff --no-fetch` for a completely local check.
 
 ## Managed files
 
