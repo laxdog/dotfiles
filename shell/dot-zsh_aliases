@@ -30,3 +30,40 @@ _production_pane_colour() {
 
 autoload -Uz add-zsh-hook
 add-zsh-hook chpwd _production_pane_colour
+
+# Look up which AWS resource owns a private IP address or prefix.
+awsip() {
+  local ip="$1"
+  if [[ -z "$ip" ]]; then
+    print -u2 'Usage: awsip <private-ip|prefix> [region]'
+    return 1
+  fi
+
+  local region="${2:-${AWS_REGION:-${AWS_DEFAULT_REGION:-$(aws configure get region 2>/dev/null)}}}"
+  if [[ -z "$region" ]]; then
+    print -u2 'No region set. Pass region as arg 2 or set AWS_REGION/AWS_DEFAULT_REGION.'
+    return 2
+  fi
+
+  if [[ "$ip" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+    aws ec2 describe-network-interfaces \
+      --region "$region" \
+      --filters "Name=addresses.private-ip-address,Values=$ip" \
+      --query 'NetworkInterfaces[].{ENI:NetworkInterfaceId,AllIPs:PrivateIpAddresses[*].PrivateIpAddress,Desc:Description,Requester:RequesterId,Type:InterfaceType,Status:Status,AZ:AvailabilityZone,Subnet:SubnetId,VPC:VpcId,InstanceId:Attachment.InstanceId,SGs:Groups[*].GroupId,PrivateDNS:PrivateDnsName}' \
+      --output table
+    return $?
+  fi
+
+  local prefix="${ip%.}."
+  aws ec2 describe-network-interfaces \
+    --region "$region" \
+    --query 'NetworkInterfaces[].{ENI:NetworkInterfaceId,AllIPs:PrivateIpAddresses[*].PrivateIpAddress,Desc:Description,Requester:RequesterId,Type:InterfaceType,Status:Status,AZ:AvailabilityZone,Subnet:SubnetId,VPC:VpcId,InstanceId:Attachment.InstanceId,SGs:Groups[*].GroupId,PrivateDNS:PrivateDnsName}' \
+    --output json | jq -r --arg prefix "$prefix" '
+      map(select((.AllIPs // []) | any(.[]; startswith($prefix))))
+      | (["ENI","IPs","Desc","Requester","Type","Status","AZ","Subnet","VPC","InstanceId","SGs","PrivateDNS"] | @tsv),
+        (.[] | [.ENI, ((.AllIPs // []) | join(",")), (.Desc // ""),
+          (.Requester // ""), (.Type // ""), (.Status // ""), (.AZ // ""),
+          (.Subnet // ""), (.VPC // ""), (.InstanceId // ""),
+          ((.SGs // []) | join(",")), (.PrivateDNS // "")] | @tsv)
+    ' | column -t -s $'\t'
+}

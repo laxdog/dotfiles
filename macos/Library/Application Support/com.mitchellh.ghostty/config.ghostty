@@ -3,3 +3,7 @@ macos-option-as-alt = left
 macos-non-native-fullscreen = true
 auto-update = check
 auto-update-channel = tip
+font-size = 14
+font-synthetic-style = no-bold,no-italic,no-bold-italic
+alpha-blending = linear-corrected
+font-variation = wght=100

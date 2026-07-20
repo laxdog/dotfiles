@@ -29,5 +29,10 @@ clone_if_missing https://github.com/zsh-users/zsh-syntax-highlighting.git \
   "$custom_dir/plugins/zsh-syntax-highlighting"
 clone_if_missing https://github.com/tmux-plugins/tpm.git \
   "$HOME/.tmux/plugins/tpm"
+mkdir -p "$HOME/.vim/pack/dotfiles/start"
+clone_if_missing https://github.com/godlygeek/tabular.git \
+  "$HOME/.vim/pack/dotfiles/start/tabular"
+clone_if_missing https://github.com/preservim/vim-markdown.git \
+  "$HOME/.vim/pack/dotfiles/start/vim-markdown"
 
-printf '%s\n' 'Plugins installed. Start a new zsh session; in tmux press prefix + I.'
+printf '%s\n' 'Plugins installed. Restart zsh/Vim; in tmux press prefix + I.'
