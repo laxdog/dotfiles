@@ -1,0 +1,133 @@
+#!/bin/sh
+set -eu
+
+packages_dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
+profiles=common
+bundle_action=install
+upgrade_flag=--no-upgrade
+
+usage() {
+  printf '%s\n' \
+    'Usage: ./packages/install [--check] [--upgrade] [PROFILE ...]' \
+    '' \
+    'Profiles: common, personal, all' \
+    'The common profile is always included.' \
+    '' \
+    '  --check    Report missing packages without installing' \
+    '  --upgrade  Upgrade outdated packages while installing'
+}
+
+add_profile() {
+  case " $profiles " in
+    *" $1 "*) ;;
+    *) profiles="$profiles $1" ;;
+  esac
+}
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --check) bundle_action=check; upgrade_flag= ;;
+    --upgrade) upgrade_flag=--upgrade ;;
+    common) ;;
+    personal) add_profile "$1" ;;
+    all) add_profile personal ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
+  esac
+  shift
+done
+
+if [ "$bundle_action" = check ]; then
+  upgrade_flag=
+fi
+
+as_root() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  elif command -v sudo >/dev/null 2>&1; then
+    sudo "$@"
+  else
+    printf '%s\n' 'Root access is required for Ubuntu prerequisites.' >&2
+    exit 1
+  fi
+}
+
+install_homebrew() {
+  if [ "$bundle_action" = check ]; then
+    printf '%s\n' 'Homebrew is not installed.' >&2
+    exit 1
+  fi
+
+  case "$(uname -s)" in
+    Darwin) ;;
+    Linux)
+      if [ ! -r /etc/os-release ] || ! grep -Eq '^ID=ubuntu$' /etc/os-release; then
+        printf '%s\n' 'The Linux bootstrap currently supports Ubuntu only.' >&2
+        exit 1
+      fi
+      as_root apt-get update
+      as_root apt-get install -y build-essential procps curl file git
+      ;;
+    *)
+      printf 'Unsupported operating system: %s\n' "$(uname -s)" >&2
+      exit 1
+      ;;
+  esac
+
+  printf '%s\n' 'Installing Homebrew using its official installer.'
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+find_brew() {
+  if command -v brew >/dev/null 2>&1; then
+    command -v brew
+  elif [ -x /opt/homebrew/bin/brew ]; then
+    printf '%s\n' /opt/homebrew/bin/brew
+  elif [ -x /usr/local/bin/brew ]; then
+    printf '%s\n' /usr/local/bin/brew
+  elif [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+    printf '%s\n' /home/linuxbrew/.linuxbrew/bin/brew
+  else
+    return 1
+  fi
+}
+
+brew_bin=$(find_brew || true)
+if [ -z "$brew_bin" ]; then
+  install_homebrew
+  brew_bin=$(find_brew) || {
+    printf '%s\n' 'Homebrew installed but its executable could not be found.' >&2
+    exit 1
+  }
+fi
+
+eval "$("$brew_bin" shellenv)"
+
+if [ "$(uname -s)" = Linux ]; then
+  if [ "$bundle_action" = install ]; then
+    as_root apt-get update
+    as_root apt-get install -y flatpak
+    as_root flatpak remote-add --if-not-exists flathub \
+      https://flathub.org/repo/flathub.flatpakrepo
+  fi
+fi
+
+if [ "$(uname -s)" = Linux ] && [ "$bundle_action" = install ]; then
+  docker_packages=docker.io
+  if apt-cache show docker-compose-v2 >/dev/null 2>&1; then
+    docker_packages="$docker_packages docker-compose-v2"
+  else
+    docker_packages="$docker_packages docker-compose"
+  fi
+  # Word splitting is intentional for the Ubuntu package list.
+  # shellcheck disable=SC2086
+  as_root apt-get install -y $docker_packages
+fi
+
+for profile in $profiles; do
+  brewfile="$packages_dir/Brewfile.$profile"
+  printf '\n==> %s packages\n' "$profile"
+  # Word splitting is intentional for the optional upgrade flag.
+  # shellcheck disable=SC2086
+  brew bundle "$bundle_action" --file="$brewfile" $upgrade_flag
+done
