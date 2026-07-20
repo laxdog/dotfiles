@@ -1,5 +1,7 @@
 # Shell and terminal tools used on every machine.
-tap "hashicorp/tap"
+tap "hashicorp/tap", trusted: {
+  formulae: ["packer", "terraform"],
+}
 
 brew "ansible"
 brew "ansible-lint"
